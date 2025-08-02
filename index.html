@@ -33,12 +33,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 28px 0 12px;
+      padding: 18px 0 10px;
       background: var(--main-bg);
       border-bottom: 1px solid var(--border);
       position: sticky; top:0; z-index:10;
     }
-    .logo {
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-img {
+      height: 48px;
+      width: 48px;
+      min-width: 48px;
+      border-radius: 12px;
+      background: #f6f6fb;
+      display: block;
+      box-shadow: 0 2px 12px 0 rgba(81,83,242,0.08);
+    }
+    .logo-text {
       font-size: 2rem;
       font-weight: bold;
       background: var(--accent);
@@ -46,6 +60,8 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
+      line-height: 1.15;
+      white-space: nowrap;
     }
     nav {
       display: flex;
@@ -131,23 +147,63 @@
       font-weight: bold;
       min-height: 28px;
     }
-    .tea-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(330px,1fr));
-      gap: 32px;
+
+    /* Карусель */
+    .carousel-section {
       margin: 40px 0 48px;
+      position: relative;
+    }
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+      z-index: 2;
+      user-select: none;
+    }
+    .carousel-btn {
+      pointer-events: all;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #7F3FFF;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      opacity: 0.85;
+      transition: background .18s;
+      margin: 0 6px;
+    }
+    .carousel-btn:active { background: #eee; }
+    .tea-carousel {
+      overflow-x: auto;
+      display: flex;
+      gap: 32px;
+      scroll-behavior: smooth;
+      padding-bottom: 10px;
+      scrollbar-width: thin;
     }
     .tea-card {
       background: var(--card-bg);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 32px 24px 24px 24px;
+      min-width: 330px;
+      max-width: 370px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       position: relative;
-      min-height: 410px;
       gap: 10px;
+      margin-bottom: 12px;
+      flex: 0 0 auto;
     }
     .tea-card img {
       width: 100%;
@@ -311,6 +367,45 @@
       0% { opacity: 0;}
       100% { opacity: 1;}
     }
+    .feedback-section {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 18px 32px 18px;
+      max-width: 500px;
+      margin: 0 auto 40px auto;
+    }
+    .feedback-section h2 {
+      font-size: 1.2rem;
+      color: #7F3FFF;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .feedback-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .feedback-form input, .feedback-form textarea {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 1rem;
+      resize: none;
+    }
+    .feedback-form textarea { min-height: 80px; }
+    .feedback-form button {
+      margin-top: 6px;
+    }
+    .feedback-success {
+      color: #26ba41;
+      text-align: center;
+      font-weight: 600;
+      margin-top: 10px;
+      font-size: 1.05rem;
+      display: none;
+    }
     footer {
       background: #1b1b2a;
       color: #f6f6fb;
@@ -357,15 +452,23 @@
     .footer-socials a:hover svg { fill: #7F3FFF; }
     @media (max-width: 900px) {
       .container { padding: 0 8px;}
-      .tea-list { grid-template-columns: 1fr; }
+      .carousel-controls { display: none; }
       .features { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 600px) {
+      .logo-img {
+        height: 36px;
+        width: 36px;
+        min-width: 36px;
+      }
+      .logo-text {
+        font-size: 1.05rem;
+      }
       .hero h1 { font-size: 1.5rem; }
       .hero p { font-size: 1.02rem; }
       .container { padding: 0 4px;}
       .features { grid-template-columns: 1fr; }
-      .tea-card { padding: 18px 8px;}
+      .tea-card { padding: 18px 8px; min-width: 88vw; max-width: 95vw;}
       .brew-guide { padding: 20px 5px; }
       header { flex-direction: column; gap:10px;}
       nav { gap:16px; }
@@ -375,7 +478,20 @@
 </head>
 <body>
   <header>
-    <div class="logo">Петербургский чайный синдикат</div>
+    <div class="logo-wrap">
+      <!-- SVG логотип-заглушка: Чашка + листья -->
+      <span class="logo-img" style="display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 48 48" fill="none" width="44" height="44">
+          <ellipse cx="24" cy="34" rx="13" ry="7" fill="#7F3FFF"/>
+          <ellipse cx="24" cy="31" rx="13" ry="5" fill="#fff"/>
+          <ellipse cx="24" cy="30.5" rx="9.5" ry="3.5" fill="#E6E6FA"/>
+          <path d="M17 30c-3.5-11.5 7-19 17-17.5" stroke="#7F3FFF" stroke-width="2" stroke-linecap="round"/>
+          <path d="M22 30c0-7.5 6-13 14-10" stroke="#5153F2" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="34" cy="16" r="3" fill="#7F3FFF"/>
+        </svg>
+      </span>
+      <span class="logo-text">Петербургский чайный синдикат</span>
+    </div>
     <nav>
       <a href="#teas">О чаях</a>
       <a href="#brew">Заваривание</a>
@@ -412,78 +528,63 @@
         <div style="font-size:0.96rem; color:#8f8fb5;">1 чашка = 200 мл, 1 чайник = 5 г чая / 500 мл</div>
       </div>
 
-      <section id="teas" class="tea-list">
-        <div class="tea-card">
-          <img src="https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=600&q=80" alt="Северный вечер">
-          <h3>Северный вечер</h3>
-          <div class="composition">
-            чай Ассам, липа, донник, лист малины и смородины, лаванда, бузина
-          </div>
-          <div class="desc">
-            Тёплый и гармоничный чайный купаж с северным характером — лёгкая нотка лаванды и бузины раскрывает нежность липового цвета и ягод. Идеален для уютных вечеров в кругу семьи.
-          </div>
-          <div class="market-buttons" id="buy">
-            <a href="#" class="market-btn market-ozon" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M10.17 19.91l-.02.01-.01-.02zm0 0a3.36 3.36 0 01-2.8-1.82 3.5 3.5 0 011.28-4.67c1.1-.66 2.36-.69 3.41-.06l2.3 1.36.6.36a.37.37 0 01.17.45l-.34 1.28c-.1.38-.37.72-.73.91l-2.5 1.44a3.36 3.36 0 01-1.36.24zm7.56 2.48a.34.34 0 01-.21-.05l-.6-.36-2.3-1.36c-1.05-.63-2.31-.6-3.41.06a3.5 3.5 0 01-1.28 4.67c1.1.66 2.36.69 3.41.06l2.3-1.36.6-.36a.37.37 0 01.17-.45l.34-1.28c.1-.38.37-.72.73-.91l2.5-1.44a3.36 3.36 0 001.36-.24zm5.12-8.19a3.5 3.5 0 00-4.67-1.28c-1.05.63-1.49 1.99-.93 3.1l1.44 2.5c.19.36.53.63.91.73l1.28.34a.37.37 0 00.45-.17l.36-.6 1.36-2.3c.63-1.05.6-2.31-.06-3.41zm-5.07-4.09c-.1-.38-.37-.72-.73-.91l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1zm-3.16 6.13l-2.3-1.36a3.36 3.36 0 00-3.41.06 3.5 3.5 0 00-1.28 4.67c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45zm7.7-3.95l-1.36 2.3a3.36 3.36 0 00-.06 3.41c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45l-.6-.36-2.3-1.36a3.36 3.36 0 00-3.41.06zm-4.89-3.62a.34.34 0 01.21.05l.6.36 2.3 1.36c1.05.63 2.31.6 3.41-.06a3.5 3.5 0 011.28-4.67c-1.1-.66-2.36-.69-3.41-.06l-2.3 1.36-.6.36a.37.37 0 01-.17.45l-.34 1.28a.37.37 0 01-.45.17zm-5.12 8.19a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1l-1.44-2.5c-.19-.36-.53-.63-.91-.73l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41z" fill="#0060df"/></g></svg>
-              Купить на Ozon
-            </a>
-            <a href="#" class="market-btn market-wb" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M13.4 9.9c.4-.5 1.1-.5 1.4 0l6.1 9.4c.4.6-.1 1.4-.7 1.4H8c-.7 0-1.1-.8-.7-1.4l6.1-9.4z" fill="#a90dff"/></g></svg>
-              Купить на Wildberries
-            </a>
-            <a href="#" class="market-btn market-yandex" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M23 10.5l-3.7 8.2-3.7-8.2h-3.1l5.3 11.3h3.1l5.3-11.3z" fill="#23233a"/></g></svg>
-              Купить на Яндекс.Маркет
-            </a>
-          </div>
+      <!-- Карусель с чаями -->
+      <section id="teas" class="carousel-section">
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="prevBtn" aria-label="Назад">&#8592;</button>
+          <button class="carousel-btn" id="nextBtn" aria-label="Вперёд">&#8594;</button>
         </div>
-        <div class="tea-card">
-          <img src="https://images.unsplash.com/photo-1451748262566-ec162e4b6d68?auto=format&fit=crop&w=600&q=80" alt="Яблочный травяной сбор">
-          <h3>Яблочный травяной сбор</h3>
-          <div class="composition">
-            сушёное яблоко, мята, лемонграсс, мелисса, лист клубники, календула
+        <div class="tea-carousel" id="teaCarousel">
+          <!-- Карточки чаёв: добавляй сюда новые -->
+          <div class="tea-card">
+            <img src="https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=600&q=80" alt="Северный вечер">
+            <h3>Северный вечер</h3>
+            <div class="composition">
+              чай Ассам, липа, донник, лист малины и смородины, лаванда, бузина
+            </div>
+            <div class="desc">
+              Тёплый и гармоничный чайный купаж с северным характером — лёгкая нотка лаванды и бузины раскрывает нежность липового цвета и ягод. Идеален для уютных вечеров в кругу семьи.
+            </div>
+            <div class="market-buttons" id="buy">
+              <a href="#" class="market-btn market-ozon" target="_blank">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M10.17 19.91l-.02.01-.01-.02zm0 0a3.36 3.36 0 01-2.8-1.82 3.5 3.5 0 011.28-4.67c1.1-.66 2.36-.69 3.41-.06l2.3 1.36.6.36a.37.37 0 01.17.45l-.34 1.28c-.1.38-.37.72-.73.91l-2.5 1.44a3.36 3.36 0 01-1.36.24zm7.56 2.48a.34.34 0 01-.21-.05l-.6-.36-2.3-1.36c-1.05-.63-2.31-.6-3.41.06a3.5 3.5 0 01-1.28 4.67c1.1.66 2.36.69 3.41.06l2.3-1.36.6-.36a.37.37 0 01.17-.45l.34-1.28c.1-.38.37-.72.73-.91l2.5-1.44a3.36 3.36 0 001.36-.24zm5.12-8.19a3.5 3.5 0 00-4.67-1.28c-1.05.63-1.49 1.99-.93 3.1l1.44 2.5c.19.36.53.63.91.73l1.28.34a.37.37 0 00.45-.17l.36-.6 1.36-2.3c.63-1.05.6-2.31-.06-3.41zm-5.07-4.09c-.1-.38-.37-.72-.73-.91l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1zm-3.16 6.13l-2.3-1.36a3.36 3.36 0 00-3.41.06 3.5 3.5 0 00-1.28 4.67c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45zm7.7-3.95l-1.36 2.3a3.36 3.36 0 00-.06 3.41c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45l-.6-.36-2.3-1.36a3.36 3.36 0 00-3.41.06zm-4.89-3.62a.34.34 0 01.21.05l.6.36 2.3 1.36c1.05.63 2.31.6 3.41-.06a3.5 3.5 0 011.28-4.67c-1.1-.66-2.36-.69-3.41-.06l-2.3 1.36-.6.36a.37.37 0 01-.17.45l-.34 1.28a.37.37 0 01-.45.17zm-5.12 8.19a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1l-1.44-2.5c-.19-.36-.53-.63-.91-.73l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41z" fill="#0060df"/></g></svg>
+                Купить на Ozon
+              </a>
+              <a href="#" class="market-btn market-wb" target="_blank">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M13.4 9.9c.4-.5 1.1-.5 1.4 0l6.1 9.4c.4.6-.1 1.4-.7 1.4H8c-.7 0-1.1-.8-.7-1.4l6.1-9.4z" fill="#a90dff"/></g></svg>
+                Купить на Wildberries
+              </a>
+              <a href="#" class="market-btn market-yandex" target="_blank">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M23 10.5l-3.7 8.2-3.7-8.2h-3.1l5.3 11.3h3.1l5.3-11.3z" fill="#23233a"/></g></svg>
+                Купить на Яндекс.Маркет
+              </a>
+            </div>
           </div>
-          <div class="desc">
-            Фруктово-травяная свежесть и аромат летнего сада — яблоко, мята, лемонграсс и нотки клубники создают бодрящий, яркий вкус для любого настроения. Идеален для дневного чаепития.
+          <div class="tea-card">
+            <img src="https://images.unsplash.com/photo-1451748262566-ec162e4b6d68?auto=format&fit=crop&w=600&q=80" alt="Яблочный травяной сбор">
+            <h3>Яблочный травяной сбор</h3>
+            <div class="composition">
+              сушёное яблоко, мята, лемонграсс, мелисса, лист клубники, календула
+            </div>
+            <div class="desc">
+              Фруктово-травяная свежесть и аромат летнего сада — яблоко, мята, лемонграсс и нотки клубники создают бодрящий, яркий вкус для любого настроения. Идеален для дневного чаепития.
+            </div>
+            <div class="market-buttons">
+              <a href="#" class="market-btn market-ozon" target="_blank">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M10.17 19.91l-.02.01-.01-.02zm0 0a3.36 3.36 0 01-2.8-1.82 3.5 3.5 0 011.28-4.67c1.1-.66 2.36-.69 3.41-.06l2.3 1.36.6.36a.37.37 0 01.17.45l-.34 1.28c-.1.38-.37.72-.73.91l-2.5 1.44a3.36 3.36 0 01-1.36.24zm7.56 2.48a.34.34 0 01-.21-.05l-.6-.36-2.3-1.36c-1.05-.63-2.31-.6-3.41.06a3.5 3.5 0 01-1.28 4.67c1.1.66 2.36.69 3.41.06l2.3-1.36.6-.36a.37.37 0 01.17-.45l.34-1.28c.1-.38.37-.72.73-.91l2.5-1.44a3.36 3.36 0 001.36-.24zm5.12-8.19a3.5 3.5 0 00-4.67-1.28c-1.05.63-1.49 1.99-.93 3.1l1.44 2.5c.19.36.53.63.91.73l1.28.34a.37.37 0 00.45-.17l.36-.6 1.36-2.3c.63-1.05.6-2.31-.06-3.41zm-5.07-4.09c-.1-.38-.37-.72-.73-.91l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1zm-3.16 6.13l-2.3-1.36a3.36 3.36 0 00-3.41.06 3.5 3.5 0 00-1.28 4.67c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45zm7.7-3.95l-1.36 2.3a3.36 3.36 0 00-.06 3.41c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45l-.6-.36-2.3-1.36a3.36 3.36 0 00-3.41.06zm-4.89-3.62a.34.34 0 01.21.05l.6.36 2.3 1.36c1.05.63 2.31.6 3.41-.06a3.5 3.5 0 011.28-4.67c-1.1-.66-2.36-.69-3.41-.06l-2.3 1.36-.6.36a.37.37 0 01-.17.45l-.34 1.28a.37.37 0 01-.45.17zm-5.12 8.19a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1l-1.44-2.5c-.19-.36-.53-.63-.91-.73l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41z" fill="#0060df"/></g></svg>
+                Купить на Ozon
+              </a>
+              <a href="#" class="market-btn market-wb" target="_blank">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M13.4 9.9c.4-.5 1.1-.5 1.4 0l6.1 9.4c.4.6-.1 1.4-.7 1.4H8c-.7 0-1.1-.8-.7-1.4l6.1-9.4z" fill="#a90dff"/></g></svg>
+                Купить на Wildberries
+              </a>
+              <a href="#" class="market-btn market-yandex" target="_blank">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M23 10.5l-3.7 8.2-3.7-8.2h-3.1l5.3 11.3h3.1l5.3-11.3z" fill="#23233a"/></g></svg>
+                Купить на Яндекс.Маркет
+              </a>
+            </div>
           </div>
-          <div class="market-buttons">
-            <a href="#" class="market-btn market-ozon" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M10.17 19.91l-.02.01-.01-.02zm0 0a3.36 3.36 0 01-2.8-1.82 3.5 3.5 0 011.28-4.67c1.1-.66 2.36-.69 3.41-.06l2.3 1.36.6.36a.37.37 0 01.17.45l-.34 1.28c-.1.38-.37.72-.73.91l-2.5 1.44a3.36 3.36 0 01-1.36.24zm7.56 2.48a.34.34 0 01-.21-.05l-.6-.36-2.3-1.36c-1.05-.63-2.31-.6-3.41.06a3.5 3.5 0 01-1.28 4.67c1.1.66 2.36.69 3.41.06l2.3-1.36.6-.36a.37.37 0 01.17-.45l.34-1.28c.1-.38.37-.72.73-.91l2.5-1.44a3.36 3.36 0 001.36-.24zm5.12-8.19a3.5 3.5 0 00-4.67-1.28c-1.05.63-1.49 1.99-.93 3.1l1.44 2.5c.19.36.53.63.91.73l1.28.34a.37.37 0 00.45-.17l.36-.6 1.36-2.3c.63-1.05.6-2.31-.06-3.41zm-5.07-4.09c-.1-.38-.37-.72-.73-.91l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1zm-3.16 6.13l-2.3-1.36a3.36 3.36 0 00-3.41.06 3.5 3.5 0 00-1.28 4.67c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45zm7.7-3.95l-1.36 2.3a3.36 3.36 0 00-.06 3.41c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45l-.6-.36-2.3-1.36a3.36 3.36 0 00-3.41.06zm-4.89-3.62a.34.34 0 01.21.05l.6.36 2.3 1.36c1.05.63 2.31.6 3.41-.06a3.5 3.5 0 011.28-4.67c-1.1-.66-2.36-.69-3.41-.06l-2.3 1.36-.6.36a.37.37 0 01-.17.45l-.34 1.28a.37.37 0 01-.45.17zm-5.12 8.19a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1l-1.44-2.5c-.19-.36-.53-.63-.91-.73l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41z" fill="#0060df"/></g></svg>
-              Купить на Ozon
-            </a>
-            <a href="#" class="market-btn market-wb" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M13.4 9.9c.4-.5 1.1-.5 1.4 0l6.1 9.4c.4.6-.1 1.4-.7 1.4H8c-.7 0-1.1-.8-.7-1.4l6.1-9.4z" fill="#a90dff"/></g></svg>
-              Купить на Wildberries
-            </a>
-            <a href="#" class="market-btn market-yandex" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M23 10.5l-3.7 8.2-3.7-8.2h-3.1l5.3 11.3h3.1l5.3-11.3z" fill="#23233a"/></g></svg>
-              Купить на Яндекс.Маркет
-            </a>
-          </div>
-        </div>
-        <div class="tea-card">
-          <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Петербургский спецкупаж">
-          <h3>Петербургский спецкупаж</h3>
-          <div class="composition">
-            чай Ассам, лист ежевики, корица, каркаде, лепестки розы, чабрец
-          </div>
-          <div class="desc">
-            Авторский бленд с нотами корицы и розы, насыщенный ягодами и каркаде — уникальное сочетание для ценителей ярких вкусов. Отлично согревает в ненастную погоду.
-          </div>
-          <div class="market-buttons">
-            <a href="#" class="market-btn market-ozon" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M10.17 19.91l-.02.01-.01-.02zm0 0a3.36 3.36 0 01-2.8-1.82 3.5 3.5 0 011.28-4.67c1.1-.66 2.36-.69 3.41-.06l2.3 1.36.6.36a.37.37 0 01.17.45l-.34 1.28c-.1.38-.37.72-.73.91l-2.5 1.44a3.36 3.36 0 01-1.36.24zm7.56 2.48a.34.34 0 01-.21-.05l-.6-.36-2.3-1.36c-1.05-.63-2.31-.6-3.41.06a3.5 3.5 0 01-1.28 4.67c1.1.66 2.36.69 3.41.06l2.3-1.36.6-.36a.37.37 0 01.17-.45l.34-1.28c.1-.38.37-.72.73-.91l2.5-1.44a3.36 3.36 0 001.36-.24zm5.12-8.19a3.5 3.5 0 00-4.67-1.28c-1.05.63-1.49 1.99-.93 3.1l1.44 2.5c.19.36.53.63.91.73l1.28.34a.37.37 0 00.45-.17l.36-.6 1.36-2.3c.63-1.05.6-2.31-.06-3.41zm-5.07-4.09c-.1-.38-.37-.72-.73-.91l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1zm-3.16 6.13l-2.3-1.36a3.36 3.36 0 00-3.41.06 3.5 3.5 0 00-1.28 4.67c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45zm7.7-3.95l-1.36 2.3a3.36 3.36 0 00-.06 3.41c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45l-.6-.36-2.3-1.36a3.36 3.36 0 00-3.41.06zm-4.89-3.62a.34.34 0 01.21.05l.6.36 2.3 1.36c1.05.63 2.31.6 3.41-.06a3.5 3.5 0 011.28-4.67c-1.1-.66-2.36-.69-3.41-.06l-2.3 1.36-.6.36a.37.37 0 01-.17.45l-.34 1.28a.37.37 0 01-.45.17zm-5.12 8.19a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1l-1.44-2.5c-.19-.36-.53-.63-.91-.73l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41z" fill="#0060df"/></g></svg>
-              Купить на Ozon
-            </a>
-            <a href="#" class="market-btn market-wb" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M13.4 9.9c.4-.5 1.1-.5 1.4 0l6.1 9.4c.4.6-.1 1.4-.7 1.4H8c-.7 0-1.1-.8-.7-1.4l6.1-9.4z" fill="#a90dff"/></g></svg>
-              Купить на Wildberries
-            </a>
-            <a href="#" class="market-btn market-yandex" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M23 10.5l-3.7 8.2-3.7-8.2h-3.1l5.3 11.3h3.1l5.3-11.3z" fill="#23233a"/></g></svg>
-              Купить на Яндекс.Маркет
-            </a>
-          </div>
+          <!-- Добавляй новые карточки сюда (просто копируй блок .tea-card) -->
         </div>
       </section>
 
@@ -552,8 +653,20 @@
         </div>
       </section>
     </section>
+
+    <!-- Обратная связь -->
+    <section class="feedback-section" id="contacts">
+      <h2>Обратная связь</h2>
+      <form class="feedback-form" id="feedbackForm" autocomplete="off">
+        <input type="text" name="name" placeholder="Ваше имя" required>
+        <input type="tel" name="phone" placeholder="Телефон" pattern="[\d\+\-\(\) ]{7,}" required>
+        <textarea name="message" placeholder="Ваш вопрос или сообщение" required></textarea>
+        <button class="btn" type="submit">Отправить</button>
+        <div class="feedback-success" id="feedbackSuccess">Спасибо, ваше сообщение отправлено!</div>
+      </form>
+    </section>
   </main>
-  <footer id="contacts">
+  <footer>
     <div class="container footer-content">
       <div class="footer-logo">Петербургский чайный синдикат</div>
       <div class="footer-links">
@@ -581,7 +694,6 @@
     function updateCalc() {
       const persons = parseInt(document.getElementById('persons').value) || 1;
       const cups = parseInt(document.getElementById('cups').value) || 1;
-      // 1 чашка = 200 мл, 5 г на 500 мл => 2 г на 200 мл (1 чашка)
       const grams = persons * cups * 2;
       const liters = (persons * cups * 0.2).toFixed(1);
       document.getElementById('calcResult').innerText =
@@ -597,6 +709,31 @@
         this.classList.toggle('open');
       });
     });
+
+    // Карусель (чистый JS, свайп и стрелки)
+    const carousel = document.getElementById('teaCarousel');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    prevBtn.onclick = () => carousel.scrollBy({left: -350, behavior: 'smooth'});
+    nextBtn.onclick = () => carousel.scrollBy({left:  350, behavior: 'smooth'});
+
+    // Для мобилок — свайп
+    let startX;
+    carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+    carousel.addEventListener('touchend', e => {
+      let dx = e.changedTouches[0].clientX - startX;
+      if(Math.abs(dx) > 60) {
+        carousel.scrollBy({left: dx > 0 ? -330 : 330, behavior: 'smooth'});
+      }
+    });
+
+    // Форма обратной связи (без реальной отправки)
+    document.getElementById('feedbackForm').onsubmit = function(e) {
+      e.preventDefault();
+      document.getElementById('feedbackSuccess').style.display = 'block';
+      setTimeout(() => document.getElementById('feedbackSuccess').style.display = 'none', 4200);
+      this.reset();
+    }
   </script>
 </body>
 </html>
