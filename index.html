@@ -1,1 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Петербургский чайный синдикат</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+    :root {
+      --main-bg: #fff;
+      --main-color: #23233a;
+      --accent: linear-gradient(90deg,#7F3FFF 0,#5153F2 100%);
+      --btn-bg: #7F3FFF;
+      --btn-hover: #5153F2;
+      --card-bg: #f6f6fb;
+      --border: #e5e7ef;
+      --radius: 20px;
+      --shadow: 0 6px 24px 0 rgba(79, 72, 255, 0.10);
+      --faq-bg: #F6F7FB;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--main-bg);
+      color: var(--main-color);
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 18px;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0 12px;
+      background: var(--main-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top:0; z-index:10;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    nav {
+      display: flex;
+      gap: 32px;
+      font-weight: 500;
+    }
+    nav a:hover { color: #7F3FFF; }
+    .btn {
+      padding: 14px 36px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #5153F2; }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 64px 0 32px;
+      background: linear-gradient(90deg,#f6f6fb 0%,#e8eaff 100%);
+      border-radius: 0 0 var(--radius) var(--radius);
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 32px;
+      color: #4b4b72;
+    }
+    .calculator {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin: 0 auto 32px;
+      max-width: 500px;
+      text-align: center;
+    }
+    .calc-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .calc-row label {
+      font-size: 1rem;
+      min-width: 80px;
+      color: #5153F2;
+    }
+    .calc-row input {
+      width: 80px;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 1.1rem;
+      text-align: right;
+    }
+    .calc-result {
+      font-size: 1.1rem;
+      margin: 16px 0 0 0;
+      color: #7F3FFF;
+      font-weight: bold;
+      min-height: 28px;
+    }
+    .tea-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(330px,1fr));
+      gap: 32px;
+      margin: 40px 0 48px;
+    }
+    .tea-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 24px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+      min-height: 410px;
+    }
+    .tea-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+      box-shadow: 0 0 0 5px #fff, 0 4px 12px 0 rgba(0,0,0,0.07);
+      background: #eee;
+    }
+    .tea-card h3 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin: 8px 0 10px;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .tea-card .composition {
+      font-size: 1rem;
+      color: #4b4b72;
+      margin-bottom: 12px;
+    }
+    .tea-card .desc {
+      font-size: 0.98rem;
+      margin-bottom: 18px;
+      color: #28285d;
+      flex-grow: 1;
+    }
+    .tea-card .buy-links {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 0;
+    }
+    .buy-links a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 2px 8px 0 rgba(127,63,255,0.06);
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      font-weight: 500;
+      transition: border .16s,background .16s;
+    }
+    .buy-links a:hover {
+      border: 1px solid #7F3FFF;
+      background: #f3efff;
+    }
+    .buy-links img { width: 20px; }
+    .brew-guide {
+      margin: 32px 0 48px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 28px;
+    }
+    .brew-guide h2 {
+      font-size: 1.3rem;
+      margin-bottom: 18px;
+      color: #7F3FFF;
+      font-weight: 700;
+    }
+    .brew-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .brew-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+    .brew-step-num {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .brew-step-text {
+      font-size: 1.02rem;
+      color: #23233a;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .feature-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px 18px;
+      text-align: center;
+    }
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+      color: #7F3FFF;
+    }
+    .faq {
+      background: var(--faq-bg);
+      border-radius: var(--radius);
+      padding: 36px 20px;
+      margin-bottom: 52px;
+      box-shadow: var(--shadow);
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .faq h2 { font-size: 1.3rem; color: #7F3FFF; margin-bottom: 18px; }
+    .faq-item {
+      border-bottom: 1px solid #e2e3ee;
+      padding: 18px 0;
+      cursor: pointer;
+      transition: background 0.13s;
+      user-select: none;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      display: flex;
+      align-items: center;
+      font-size: 1.08rem;
+      font-weight: 500;
+    }
+    .faq-toggle {
+      margin-left: auto;
+      font-size: 1.7rem;
+      color: #7F3FFF;
+      transition: transform 0.13s;
+    }
+    .faq-a {
+      font-size: 1rem;
+      color: #45457d;
+      margin-top: 8px;
+      display: none;
+      animation: fadein .5s;
+    }
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    @keyframes fadein {
+      0% { opacity: 0;}
+      100% { opacity: 1;}
+    }
+    footer {
+      background: #1b1b2a;
+      color: #f6f6fb;
+      padding: 32px 0 18px 0;
+      margin-top: 40px;
+    }
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .footer-links, .footer-socials {
+      display: flex;
+      gap: 16px;
+      margin: 4px 0;
+    }
+    .footer-links a, .footer-socials a {
+      color: #e2e3ee;
+      font-size: 1.1rem;
+      transition: color .13s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .footer-links a:hover, .footer-socials a:hover { color: #7F3FFF; }
+    .footer-logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      margin-bottom: 2px;
+    }
+    @media (max-width: 900px) {
+      .container { padding: 0 8px;}
+      .tea-list { grid-template-columns: 1fr; }
+      .features { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.5rem; }
+      .hero p { font-size: 1.02rem; }
+      .container { padding: 0 4px;}
+      .features { grid-template-columns: 1fr; }
+      .tea-card { padding: 18px 8px;}
+      .brew-guide { padding: 20px 5px; }
+      header { flex-direction: column; gap:10px;}
+      nav { gap:16px; }
+      .btn { padding: 10px 20px; font-size: .98rem;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Петербургский чайный синдикат</div>
+    <nav>
+      <a href="#teas">О чаях</a>
+      <a href="#brew">Заваривание</a>
+      <a href="#buy">Где купить</a>
+      <a href="#faq">Сотрудничество</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a href="#buy" class="btn">Купить чай</a>
+  </header>
+  <main>
+    <section class="hero">
+      <h1>Премиальные авторские чаи<br>из Санкт-Петербурга</h1>
+      <p>Натуральные купажи с уникальными составами — только лучшие травы, ягоды и чёрный чай Ассам.<br>
+        Наслаждайтесь настоящим вкусом в каждой чашке!
+      </p>
+      <a href="#buy" class="btn">Сделать заказ</a>
+    </section>
+
+    <section class="container">
+      <div class="calculator" id="calculator">
+        <h2>Калькулятор чая на компанию</h2>
+        <div class="calc-row">
+          <label for="persons">Гостей:</label>
+          <input type="number" min="1" max="50" id="persons" value="5">
+        </div>
+        <div class="calc-row">
+          <label for="cups">Чашек на человека:</label>
+          <input type="number" min="1" max="10" id="cups" value="2">
+        </div>
+        <div class="calc-row">
+          <label>Итог:</label>
+          <div class="calc-result" id="calcResult"></div>
+        </div>
+        <div style="font-size:0.96rem; color:#8f8fb5;">1 чашка = 200 мл, 1 чайник = 5 г чая / 500 мл</div>
+      </div>
+
+      <section id="teas" class="tea-list">
+        <div class="tea-card">
+          <img src="https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=200&q=80" alt="Северный вечер">
+          <h3>Северный вечер</h3>
+          <div class="composition">
+            чай Ассам, липа, донник, лист малины и смородины, лаванда, бузина
+          </div>
+          <div class="desc">
+            Тёплый и гармоничный чайный купаж с северным характером — лёгкая нотка лаванды и бузины раскрывает нежность липового цвета и ягод. Идеален для уютных вечеров в кругу семьи.
+          </div>
+          <div class="buy-links" id="buy">
+            <a href="#" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Ozon_Logo_2020.svg" alt="Ozon" style="width:20px;">Ozon</a>
+            <a href="#" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Wildberries_logo_2023.svg/1280px-Wildberries_logo_2023.svg.png" alt="WB" style="width:20px;">Wildberries</a>
+            <a href="#" target="_blank"><img src="https://cdn.worldvectorlogo.com/logos/yandex-ru.svg" alt="Яндекс" style="width:20px;">Яндекс.Маркет</a>
+          </div>
+        </div>
+        <div class="tea-card">
+          <img src="https://images.unsplash.com/photo-1451748262566-ec162e4b6d68?auto=format&fit=crop&w=200&q=80" alt="Яблочный травяной сбор">
+          <h3>Яблочный травяной сбор</h3>
+          <div class="composition">
+            сушёное яблоко, мята, лемонграсс, мелисса, лист клубники, календула
+          </div>
+          <div class="desc">
+            Фруктово-травяная свежесть и аромат летнего сада — яблоко, мята, лемонграсс и нотки клубники создают бодрящий, яркий вкус для любого настроения. Идеален для дневного чаепития.
+          </div>
+          <div class="buy-links">
+            <a href="#" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Ozon_Logo_2020.svg" alt="Ozon" style="width:20px;">Ozon</a>
+            <a href="#" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Wildberries_logo_2023.svg/1280px-Wildberries_logo_2023.svg.png" alt="WB" style="width:20px;">Wildberries</a>
+            <a href="#" target="_blank"><img src="https://cdn.worldvectorlogo.com/logos/yandex-ru.svg" alt="Яндекс" style="width:20px;">Яндекс.Маркет</a>
+          </div>
+        </div>
+        <div class="tea-card">
+          <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=200&q=80" alt="Петербургский спецкупаж">
+          <h3>Петербургский спецкупаж</h3>
+          <div class="composition">
+            чай Ассам, лист ежевики, корица, каркаде, лепестки розы, чабрец
+          </div>
+          <div class="desc">
+            Авторский бленд с нотами корицы и розы, насыщенный ягодами и каркаде — уникальное сочетание для ценителей ярких вкусов. Отлично согревает в ненастную погоду.
+          </div>
+          <div class="buy-links">
+            <a href="#" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Ozon_Logo_2020.svg" alt="Ozon" style="width:20px;">Ozon</a>
+            <a href="#" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Wildberries_logo_2023.svg/1280px-Wildberries_logo_2023.svg.png" alt="WB" style="width:20px;">Wildberries</a>
+            <a href="#" target="_blank"><img src="https://cdn.worldvectorlogo.com/logos/yandex-ru.svg" alt="Яндекс" style="width:20px;">Яндекс.Маркет</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="brew-guide" id="brew">
+        <h2>Как заваривать наши чаи</h2>
+        <div class="brew-steps">
+          <div class="brew-step">
+            <div class="brew-step-num">1</div>
+            <div class="brew-step-text">Возьмите 5 г чая на 500 мл воды (примерно 2 чайные ложки на чайник).</div>
+          </div>
+          <div class="brew-step">
+            <div class="brew-step-num">2</div>
+            <div class="brew-step-text">Залейте свежевскипячённой водой 90–95°C.</div>
+          </div>
+          <div class="brew-step">
+            <div class="brew-step-num">3</div>
+            <div class="brew-step-text">Дайте настояться 5–7 минут для травяных, 3–5 минут для чёрного чая.</div>
+          </div>
+          <div class="brew-step">
+            <div class="brew-step-num">4</div>
+            <div class="brew-step-text">Перемешайте и разлейте по чашкам. Наслаждайтесь!</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="feature-card">
+          <div class="feature-icon">🌱</div>
+          100% натуральные ингредиенты
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌍</div>
+          Авторские купажи ручной работы
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          Прямые поставки с производства в Санкт-Петербурге
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🚚</div>
+          Быстрая доставка по всей России
+        </div>
+      </section>
+
+      <section class="faq" id="faq">
+        <h2>Частые вопросы</h2>
+        <div class="faq-item">
+          <div class="faq-q">Как заказать чай?<span class="faq-toggle">+</span></div>
+          <div class="faq-a">Выберите понравившийся чай и оформите заказ через маркетплейсы или напишите нам для оптовых/корпоративных заказов.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Какие условия доставки?<span class="faq-toggle">+</span></div>
+          <div class="faq-a">Мы отправляем заказы по всей России — через Ozon, Wildberries, Яндекс.Маркет, а также по запросу напрямую.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Есть ли у вас скидки или специальные предложения?<span class="faq-toggle">+</span></div>
+          <div class="faq-a">Да, для оптовых и корпоративных клиентов — индивидуальные условия. Пишите нам для сотрудничества!</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Сотрудничество<span class="faq-toggle">+</span></div>
+          <div class="faq-a">Рады новым партнёрам! Оставьте заявку через форму обратной связи или напишите нам на почту — обсудим индивидуальные условия для магазинов, кафе и отелей.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Как долго хранится чай?<span class="faq-toggle">+</span></div>
+          <div class="faq-a">Срок годности — 12 месяцев. Хранить в сухом прохладном месте, беречь от солнца и влаги.</div>
+        </div>
+      </section>
+    </section>
+  </main>
+  <footer id="contacts">
+    <div class="container footer-content">
+      <div class="footer-logo">Петербургский чайный синдикат</div>
+      <div class="footer-links">
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">О компании</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#" title="VK"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111712.png" alt="VK" width="24"></a>
+        <a href="#" title="Telegram"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" width="24"></a>
+        <a href="#" title="Instagram"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" width="24"></a>
+      </div>
+      <div>Телефон: <a href="tel:+70000000000" style="color:#7F3FFF;">+7 (000) 000-00-00</a> | Email: <a href="mailto:info@tea-syndicate.ru" style="color:#7F3FFF;">info@tea-syndicate.ru</a></div>
+      <div style="font-size:0.96rem; color:#bdbdcf; margin-top:12px;">&copy; 2025 Петербургский чайный синдикат. Все права защищены.</div>
+    </div>
+  </footer>
+  <script>
+    // Калькулятор чая
+    function updateCalc() {
+      const persons = parseInt(document.getElementById('persons').value) || 1;
+      const cups = parseInt(document.getElementById('cups').value) || 1;
+      // 1 чашка = 200 мл, 5 г на 500 мл => 2 г на 200 мл (1 чашка)
+      const grams = persons * cups * 2;
+      const liters = (persons * cups * 0.2).toFixed(1);
+      document.getElementById('calcResult').innerText =
+        `${grams} г чая • ${liters} л напитка`;
+    }
+    document.getElementById('persons').addEventListener('input', updateCalc);
+    document.getElementById('cups').addEventListener('input', updateCalc);
+    updateCalc();
+
+    // FAQ-аккордеон
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', function() {
+        this.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
 
