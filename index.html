@@ -2,854 +2,274 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Петербургский чайный синдикат</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Петербургский чайный синдикат — авторские купажи чая</title>
+  <meta name="description" content="Авторские купажи чая с душой Петербурга: натуральные составы, стильные тубусы, вкусы, которые запоминаются. Доставка и ссылки на Ozon/Wildberries." />
+  <link rel="icon" href="logo.jpg" />
   <style>
-    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
-    :root {
-      --main-bg: #fff;
-      --main-color: #23233a;
-      --accent: linear-gradient(90deg,#7F3FFF 0,#5153F2 100%);
-      --btn-bg: #7F3FFF;
-      --btn-hover: #5153F2;
-      --card-bg: #f6f6fb;
-      --border: #e5e7ef;
-      --radius: 20px;
-      --shadow: 0 6px 24px 0 rgba(79, 72, 255, 0.10);
-      --faq-bg: #F6F7FB;
-      --carousel-card-width: 330px;
-      --carousel-card-max-width: 370px;
+    :root{--bg:#0f121a;--surface:#161a23;--muted:#8c92a3;--text:#f5f6fa;--accent:#cda56b;--radius:16px;--shadow:0 12px 32px rgba(0,0,0,.35)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    .header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(8px);background:rgba(15,18,26,.6);border-bottom:1px solid rgba(255,255,255,.06)}
+    .header__inner{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none}
+    .logo__name{color:var(--accent)}
+    .nav{display:flex;gap:18px;align-items:center}
+    .nav a{color:var(--text);text-decoration:none;font-size:14px;opacity:.9}
+    .nav a:hover{opacity:1}
+    .burger{display:none;background:none;border:0;color:var(--text);font-size:24px}
+    .hero{position:relative;min-height:68vh;display:grid;place-items:center;text-align:center;overflow:hidden}
+    .hero__bg{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,18,26,.65) 0,rgba(15,18,26,.9) 100%),url('https://images.unsplash.com/photo-1533077165760-89f3df0aef5c?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat}
+    .hero__content{position:relative;padding:80px 20px}
+    .hero h1{font-size:clamp(28px,5vw,44px);margin:.2em 0 .4em}
+    .hero p{max-width:760px;margin:0 auto 20px;color:var(--muted);font-size:clamp(14px,2vw,18px)}
+    .cta{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:999px;background:var(--accent);color:#111;text-decoration:none;font-weight:700;box-shadow:var(--shadow)}
+    .cta--ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
+    .section{max-width:1200px;margin:0 auto;padding:64px 20px}
+    .section h2{font-size:28px;margin:0 0 20px;color:var(--accent)}
+    .section p.lead{color:var(--muted);margin-top:0}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+    .feature{background:linear-gradient(180deg,#171b26,#121522);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .feature h3{margin:6px 0 8px;font-size:18px}
+    .feature p{margin:0;font-size:14px;color:var(--muted)}
+    .products{display:grid;gap:28px;margin-top:22px}
+    .product{background:linear-gradient(180deg,#171b26,#111422);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);display:grid;grid-template-columns:320px 1fr;overflow:hidden;box-shadow:var(--shadow)}
+    .product__img{width:100%;height:100%;object-fit:cover;background:#0d0f16}
+    .product__body{padding:22px}
+    .product__title{margin:0 0 8px;font-size:24px}
+    .product__desc{margin:0 0 14px;color:var(--muted)}
+    .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+    .meta__box{background:#101321;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px}
+    .meta__box strong{display:block;margin-bottom:6px;font-size:14px}
+    .meta__box ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
+    .buy{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,.1)}
+    .btn--ozon{background:rgba(51,144,255,.12)}
+    .btn--wb{background:rgba(255,51,204,.12)}
+    .btn svg{width:18px;height:18px}
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+    .gallery-grid img{width:100%;height:210px;object-fit:cover;border-radius:12px;cursor:pointer;transition:transform .2s ease}
+    .gallery-grid img:hover{transform:translateY(-3px)}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:1000}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:90vw;max-height:80vh;border-radius:12px}
+    .lightbox .close,.lightbox .prev,.lightbox .next{position:absolute;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;padding:10px 12px;border-radius:12px;cursor:pointer}
+    .lightbox .close{top:24px;right:24px}
+    .lightbox .prev{left:24px}
+    .lightbox .next{right:24px}
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.08)}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%}
+    .contact-card{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:16px}
+    .card{background:linear-gradient(180deg,#171b26,#121522);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .form{display:grid;gap:12px}
+    .input,.textarea{background:#0f1320;color:#fff;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;font-size:15px}
+    .textarea{min-height:120px;resize:vertical}
+    .submit{background:var(--accent);color:#111;border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer}
+    .note{color:var(--muted);font-size:13px}
+    .footer{border-top:1px solid rgba(255,255,255,.06);color:var(--muted);text-align:center;padding:36px 20px;margin-top:40px}
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.is-visible{opacity:1;transform:translateY(0)}
+    @media (max-width:1000px){
+      .product{grid-template-columns:1fr}
+      .meta{grid-template-columns:1fr}
+      .contact-card{grid-template-columns:1fr}
+      .features{grid-template-columns:1fr 1fr}
+      .gallery-grid{grid-template-columns:1fr 1fr}
     }
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: var(--main-bg);
-      color: var(--main-color);
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-size: 18px;
-    }
-    a { text-decoration: none; color: inherit; }
-    .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 0 10px;
-      background: var(--main-bg);
-      border-bottom: 1px solid var(--border);
-      position: sticky; top:0; z-index:10;
-      min-height: 62px;
-    }
-    .logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .logo-img {
-      height: 48px;
-      width: 48px;
-      min-width: 48px;
-      border-radius: 12px;
-      background: #f6f6fb;
-      display: block;
-      box-shadow: 0 2px 12px 0 rgba(81,83,242,0.08);
-    }
-    .logo-text {
-      font-size: 2rem;
-      font-weight: bold;
-      background: var(--accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-      line-height: 1.15;
-      white-space: nowrap;
-    }
-    nav {
-      display: flex;
-      gap: 32px;
-      font-weight: 500;
-    }
-    nav a:hover { color: #7F3FFF; }
-    .btn {
-      padding: 14px 36px;
-      background: var(--accent);
-      color: #fff;
-      font-size: 1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: var(--radius);
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      transition: background 0.2s;
-      outline: none;
-      text-align: center;
-      display: inline-block;
-    }
-    .btn:hover { background: #5153F2; }
-    .burger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      width: 38px; height: 38px;
-      margin-left: 14px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      padding: 0;
-    }
-    .burger span {
-      height: 4px;
-      margin: 4px 0;
-      width: 28px;
-      background: #7F3FFF;
-      border-radius: 2px;
-      display: block;
-      transition: .2s;
-    }
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 0; right: 0; left: 0;
-      background: #fff;
-      box-shadow: 0 4px 24px rgba(81,83,242,0.10);
-      z-index: 50;
-      padding: 22px 16px 30px 16px;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
-      animation: fadein .25s;
-    }
-    .mobile-menu.show { display: flex; }
-    .mobile-menu .btn {
-      width: 100%;
-      margin: 18px 0 0 0;
-      font-size: 1.11rem;
-    }
-    .mobile-menu nav {
-      flex-direction: column;
-      gap: 18px;
-      width: 100%;
-    }
-    .close-menu {
-      position: absolute;
-      top: 18px; right: 18px;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: #7F3FFF;
-      cursor: pointer;
-    }
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 64px 0 32px;
-      background: linear-gradient(90deg,#f6f6fb 0%,#e8eaff 100%);
-      border-radius: 0 0 var(--radius) var(--radius);
-      margin-bottom: 32px;
-    }
-    .hero h1 {
-      font-size: 2.6rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-      background: var(--accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
-    .hero p {
-      font-size: 1.3rem;
-      margin-bottom: 32px;
-      color: #4b4b72;
-    }
-    .calculator {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 32px;
-      margin: 0 auto 32px;
-      max-width: 500px;
-      text-align: center;
-    }
-    .calc-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    .calc-row label {
-      font-size: 1rem;
-      min-width: 80px;
-      color: #5153F2;
-    }
-    .calc-row input {
-      width: 80px;
-      padding: 8px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 1.1rem;
-      text-align: right;
-    }
-    .calc-result {
-      font-size: 1.1rem;
-      margin: 16px 0 0 0;
-      color: #7F3FFF;
-      font-weight: bold;
-      min-height: 28px;
-    }
-    .carousel-section {
-      margin: 40px 0 48px;
-      position: relative;
-    }
-    .carousel-controls {
-      position: absolute;
-      top: 50%;
-      left: 0; right: 0;
-      display: flex;
-      justify-content: space-between;
-      pointer-events: none;
-      z-index: 2;
-      user-select: none;
-    }
-    .carousel-btn {
-      pointer-events: all;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: #7F3FFF;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      opacity: 0.85;
-      transition: background .18s;
-      margin: 0 6px;
-    }
-    .carousel-btn:active { background: #eee; }
-    .tea-carousel {
-      overflow-x: auto;
-      display: flex;
-      gap: 32px;
-      scroll-behavior: smooth;
-      padding-bottom: 10px;
-      scrollbar-width: thin;
-      /* padding-top: 12px; */
-    }
-    .tea-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 32px 24px 24px 24px;
-      min-width: 340px;
-      max-width: 380px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      position: relative;
-      gap: 10px;
-      margin-bottom: 12px;
-      flex: 0 0 auto;
-    }
-    .tea-card img {
-      width: 100%;
-      height: auto;
-      max-width: 100%;
-      max-height: 420px;
-      aspect-ratio: 806 / 1074;
-      object-fit: contain;
-      border-radius: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 0 0 2px #fff, 0 4px 12px 0 rgba(0,0,0,0.07);
-      background: #eee;
-      display: block;
-    }
-    .tea-card h3 {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin: 8px 0 10px;
-      background: var(--accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
-    .tea-card .composition {
-      font-size: 1rem;
-      color: #4b4b72;
-      margin-bottom: 4px;
-    }
-    .tea-card .desc {
-      font-size: 0.98rem;
-      margin-bottom: 8px;
-      color: #28285d;
-      flex-grow: 1;
-    }
-    .market-buttons {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .market-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-      border-radius: 12px;
-      border: none;
-      font-weight: 700;
-      font-size: 1rem;
-      justify-content: center;
-      padding: 12px 0;
-      cursor: pointer;
-      transition: box-shadow .16s,background .16s;
-      box-shadow: 0 2px 8px 0 rgba(127,63,255,0.06);
-      outline: none;
-    }
-    .market-btn svg { width: 24px; height: 24px; }
-    .market-ozon { background: #0060df; color: #fff; }
-    .market-ozon:hover { background: #1849a8; }
-    .market-wb   { background: #a90dff; color: #fff; }
-    .market-wb:hover { background: #7e0ad0; }
-    .market-yandex { background: #ffdb4d; color: #23233a; }
-    .market-yandex:hover { background: #ffe98e; }
-    .brew-guide {
-      margin: 32px 0 48px;
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 36px 28px;
-    }
-    .brew-guide h2 {
-      font-size: 1.3rem;
-      margin-bottom: 18px;
-      color: #7F3FFF;
-      font-weight: 700;
-    }
-    .brew-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .brew-step {
-      display: flex;
-      align-items: flex-start;
-      gap: 18px;
-    }
-    .brew-step-num {
-      width: 36px; height: 36px;
-      background: var(--accent);
-      border-radius: 50%;
-      color: #fff;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-    .brew-step-text {
-      font-size: 1.02rem;
-      color: #23233a;
-    }
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-      gap: 24px;
-      margin-bottom: 48px;
-    }
-    .feature-card {
-      background: #fff;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 26px 18px;
-      text-align: center;
-    }
-    .feature-icon {
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-      color: #7F3FFF;
-    }
-    .faq {
-      background: var(--faq-bg);
-      border-radius: var(--radius);
-      padding: 36px 20px;
-      margin-bottom: 52px;
-      box-shadow: var(--shadow);
-      max-width: 850px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .faq h2 { font-size: 1.3rem; color: #7F3FFF; margin-bottom: 18px; }
-    .faq-item {
-      border-bottom: 1px solid #e2e3ee;
-      padding: 18px 0;
-      cursor: pointer;
-      transition: background 0.13s;
-      user-select: none;
-    }
-    .faq-item:last-child { border-bottom: none; }
-    .faq-q {
-      display: flex;
-      align-items: center;
-      font-size: 1.08rem;
-      font-weight: 500;
-    }
-    .faq-toggle {
-      margin-left: auto;
-      font-size: 1.7rem;
-      color: #7F3FFF;
-      transition: transform 0.13s;
-    }
-    .faq-a {
-      font-size: 1rem;
-      color: #45457d;
-      margin-top: 8px;
-      display: none;
-      animation: fadein .5s;
-    }
-    .faq-item.open .faq-a { display: block; }
-    .faq-item.open .faq-toggle { transform: rotate(45deg); }
-    @keyframes fadein {
-      0% { opacity: 0;}
-      100% { opacity: 1;}
-    }
-    .feedback-section {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 36px 18px 32px 18px;
-      max-width: 500px;
-      margin: 0 auto 40px auto;
-    }
-    .feedback-section h2 {
-      font-size: 1.2rem;
-      color: #7F3FFF;
-      font-weight: 700;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-    .feedback-form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .feedback-form input, .feedback-form textarea {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      font-size: 1rem;
-      resize: none;
-    }
-    .feedback-form textarea { min-height: 80px; }
-    .feedback-form button {
-      margin-top: 6px;
-    }
-    .feedback-success {
-      color: #26ba41;
-      text-align: center;
-      font-weight: 600;
-      margin-top: 10px;
-      font-size: 1.05rem;
-      display: none;
-    }
-    footer {
-      background: #1b1b2a;
-      color: #f6f6fb;
-      padding: 32px 0 18px 0;
-      margin-top: 40px;
-    }
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-    .footer-links, .footer-socials {
-      display: flex;
-      gap: 16px;
-      margin: 4px 0;
-    }
-    .footer-links a, .footer-socials a {
-      color: #e2e3ee;
-      font-size: 1.1rem;
-      transition: color .13s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .footer-links a:hover, .footer-socials a:hover { color: #7F3FFF; }
-    .footer-logo {
-      font-size: 1.3rem;
-      font-weight: 700;
-      background: var(--accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-      margin-bottom: 2px;
-    }
-    .footer-socials svg {
-      width: 24px;
-      height: 24px;
-      vertical-align: middle;
-      fill: #e2e3ee;
-      transition: fill .13s;
-    }
-    .footer-socials a:hover svg { fill: #7F3FFF; }
-    @media (max-width: 900px) {
-      .container { padding: 0 8px;}
-      .carousel-controls { display: none; }
-      .features { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 600px) {
-      header {
-        flex-direction: row;
-        gap: 10px;
-        justify-content: flex-start;
-      }
-      .logo-wrap {
-        gap: 10px;
-      }
-      .logo-img {
-        height: 32px;
-        width: 32px;
-        min-width: 32px;
-      }
-      .logo-text {
-        font-size: 1.1rem;
-        max-width: 90vw;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      nav, .btn { display: none !important; }
-      .burger { display: flex; }
-      .container { padding: 0 4px;}
-      .features { grid-template-columns: 1fr; }
-      .tea-card {
-        padding: 18px 8px;
-        min-width: 90vw;
-        max-width: 98vw;
-      }
-      .tea-card img {
-        max-width: 98vw;
-        max-height: 340px;
-      }
-      .mobile-menu { display: none; }
-      .mobile-menu.show { display: flex; }
+    @media (max-width:560px){
+      .features{grid-template-columns:1fr}
+      .gallery-grid{grid-template-columns:1fr}
+      .nav{display:none}
+      .burger{display:block}
+      .nav.open{position:fixed;inset:56px 12px auto;background:#141826;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;display:grid;gap:8px;z-index:60}
     }
   </style>
 </head>
 <body>
-<header>
-  <div class="logo-wrap">
-      <span class="logo-img" style="display:flex;align-items:center;justify-content:center;">
-        <svg viewBox="0 0 48 48" fill="none" width="32" height="32">
-          <ellipse cx="24" cy="34" rx="13" ry="7" fill="#7F3FFF"/>
-          <ellipse cx="24" cy="31" rx="13" ry="5" fill="#fff"/>
-          <ellipse cx="24" cy="30.5" rx="9.5" ry="3.5" fill="#E6E6FA"/>
-          <path d="M17 30c-3.5-11.5 7-19 17-17.5" stroke="#7F3FFF" stroke-width="2" stroke-linecap="round"/>
-          <path d="M22 30c0-7.5 6-13 14-10" stroke="#5153F2" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="34" cy="16" r="3" fill="#7F3FFF"/>
-        </svg>
-      </span>
-    <span class="logo-text">Петербургский чайный синдикат</span>
-    <button class="burger" id="burgerBtn" aria-label="Меню">
-      <span></span><span></span><span></span>
-    </button>
+<header class="header">
+  <div class="header__inner">
+    <a href="#" class="logo">
+      <img src="logo.jpg" alt="Петербургский чайный синдикат" width="28" height="28" style="border-radius:8px;object-fit:cover"/>
+      <span class="logo__name">Петербургский чайный синдикат</span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#products">Чаи</a>
+      <a href="#gallery">Галерея</a>
+      <a href="#video">Видео</a>
+      <a href="#partners">Сотрудничество</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Меню">☰</button>
   </div>
-  <nav>
-    <a href="#teas">О чаях</a>
-    <a href="#brew">Заваривание</a>
-    <a href="#buy">Где купить</a>
-    <a href="#faq">Сотрудничество</a>
-    <a href="#contacts">Контакты</a>
-  </nav>
-  <a href="#buy" class="btn">Купить чай</a>
 </header>
-<!-- Мобильное меню -->
-<div class="mobile-menu" id="mobileMenu">
-  <button class="close-menu" id="closeMenuBtn" aria-label="Закрыть меню">&times;</button>
-  <nav>
-    <a href="#teas" onclick="closeMobileMenu()">О чаях</a>
-    <a href="#brew" onclick="closeMobileMenu()">Заваривание</a>
-    <a href="#buy" onclick="closeMobileMenu()">Где купить</a>
-    <a href="#faq" onclick="closeMobileMenu()">Сотрудничество</a>
-    <a href="#contacts" onclick="closeMobileMenu()">Контакты</a>
-  </nav>
-  <a href="#buy" class="btn" onclick="closeMobileMenu()">Купить чай</a>
-</div>
-<main>
-  <section class="hero">
-    <h1>Премиальные авторские чаи<br>из Санкт-Петербурга</h1>
-    <p>Натуральные купажи с уникальными составами — только лучшие травы, ягоды и чёрный чай Ассам.<br>
-      Наслаждайтесь настоящим вкусом в каждой чашке!
-    </p>
-    <a href="#buy" class="btn">Сделать заказ</a>
-  </section>
-
-  <section class="container">
-    <div class="calculator" id="calculator">
-      <h2>Калькулятор чая на компанию</h2>
-      <div class="calc-row">
-        <label for="persons">Гостей:</label>
-        <input type="number" min="1" max="50" id="persons" value="5">
-      </div>
-      <div class="calc-row">
-        <label for="cups">Чашек на человека:</label>
-        <input type="number" min="1" max="10" id="cups" value="2">
-      </div>
-      <div class="calc-row">
-        <label>Итог:</label>
-        <div class="calc-result" id="calcResult"></div>
-      </div>
-      <div style="font-size:0.96rem; color:#8f8fb5;">1 чашка = 200 мл, 1 чайник = 5 г чая / 500 мл</div>
+<section class="hero">
+  <div class="hero__bg" id="heroBg" aria-hidden="true"></div>
+  <div class="hero__content">
+    <h1 class="reveal">Чай с душой Петербурга</h1>
+    <p class="reveal">Натуральные купажи, стильные тубусы, вкусы, которые хочется дарить. «Северный вечер», «Петербургский спецкупаж №7», «Яблочный травяной сбор».</p>
+    <div class="reveal" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+      <a class="cta" href="#products">Смотреть чаи</a>
+      <a class="cta cta--ghost" href="#contact">Связаться</a>
     </div>
-
-    <!-- Карусель с чаями -->
-    <section id="teas" class="carousel-section">
-      <div class="carousel-controls">
-        <button class="carousel-btn" id="prevBtn" aria-label="Назад">&#8592;</button>
-        <button class="carousel-btn" id="nextBtn" aria-label="Вперёд">&#8594;</button>
-      </div>
-      <div class="tea-carousel" id="teaCarousel">
-        <div class="tea-card">
-          <img src="spec7.jpg" alt="Петербургский спецкупаж №7">
-          <h3>Петербургский спецкупаж №7</h3>
-          <div class="composition">
-            чай Ассам, лист ежевики, корица, каркаде, лепестки розы, чабрец
-          </div>
-          <div class="desc">
-            🔥Петербургский вкус в каждой чашке: Авторский купаж на основе чая Ассам с лепестками розы, каркаде, чабрецом, корицей и листом ежевики. Гармоничное сочетание мягкого вкуса с фруктово-пряными нотами создаёт согревающий и насыщенный напиток. Без ароматизаторов.
-            Подходит для утреннего и дневного чаепития.
-          </div>
-          <div class="market-buttons" id="buy">
-            <a href="#" class="market-btn market-ozon" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M10.17 19.91l-.02.01-.01-.02zm0 0a3.36 3.36 0 01-2.8-1.82 3.5 3.5 0 011.28-4.67c1.1-.66 2.36-.69 3.41-.06l2.3 1.36.6.36a.37.37 0 01.17.45l-.34 1.28c-.1.38-.37.72-.73.91l-2.5 1.44a3.36 3.36 0 01-1.36.24zm7.56 2.48a.34.34 0 01-.21-.05l-.6-.36-2.3-1.36c-1.05-.63-2.31-.6-3.41.06a3.5 3.5 0 01-1.28 4.67c1.1.66 2.36.69 3.41.06l2.3-1.36.6-.36a.37.37 0 01.17-.45l.34-1.28c.1-.38.37-.72.73-.91l2.5-1.44a3.36 3.36 0 001.36-.24zm5.12-8.19a3.5 3.5 0 00-4.67-1.28c-1.05.63-1.49 1.99-.93 3.1l1.44 2.5c.19.36.53.63.91.73l1.28.34a.37.37 0 00.45-.17l.36-.6 1.36-2.3c.63-1.05.6-2.31-.06-3.41zm-5.07-4.09c-.1-.38-.37-.72-.73-.91l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1zm-3.16 6.13l-2.3-1.36a3.36 3.36 0 00-3.41.06 3.5 3.5 0 00-1.28 4.67c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45zm7.7-3.95l-1.36 2.3a3.36 3.36 0 00-.06 3.41c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45l-.6-.36-2.3-1.36a3.36 3.36 0 00-3.41.06zm-4.89-3.62a.34.34 0 01.21.05l.6.36 2.3 1.36c1.05.63 2.31.6 3.41-.06a3.5 3.5 0 011.28-4.67c-1.1-.66-2.36-.69-3.41-.06l-2.3 1.36-.6.36a.37.37 0 01-.17.45l-.34 1.28a.37.37 0 01-.45.17zm-5.12 8.19a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1l-1.44-2.5c-.19-.36-.53-.63-.91-.73l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41z" fill="#0060df"/></g></svg>
-              Купить на Ozon
-            </a>
-            <a href="#" class="market-btn market-wb" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M13.4 9.9c.4-.5 1.1-.5 1.4 0l6.1 9.4c.4.6-.1 1.4-.7 1.4H8c-.7 0-1.1-.8-.7-1.4l6.1-9.4z" fill="#a90dff"/></g></svg>
-              Купить на Wildberries
-            </a>
-            <a href="#" class="market-btn market-yandex" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M23 10.5l-3.7 8.2-3.7-8.2h-3.1l5.3 11.3h3.1l5.3-11.3z" fill="#23233a"/></g></svg>
-              Купить на Яндекс.Маркет
-            </a>
-          </div>
-        </div>
-        <div class="tea-card">
-          <img src="sever.jpg" alt="Северный вечер">
-          <h3>Северный вечер</h3>
-          <div class="composition">
-            чай Ассам, липа, донник, лист малины и смородины, лаванда, бузина
-          </div>
-          <div class="desc">
-            Тёплый и гармоничный чайный купаж с северным характером — лёгкая нотка лаванды и бузины раскрывает нежность липового цвета и ягод. Идеален для уютных вечеров в кругу семьи.
-          </div>
-          <div class="market-buttons" id="buy">
-            <a href="#" class="market-btn market-ozon" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M10.17 19.91l-.02.01-.01-.02zm0 0a3.36 3.36 0 01-2.8-1.82 3.5 3.5 0 011.28-4.67c1.1-.66 2.36-.69 3.41-.06l2.3 1.36.6.36a.37.37 0 01.17.45l-.34 1.28c-.1.38-.37.72-.73.91l-2.5 1.44a3.36 3.36 0 01-1.36.24zm7.56 2.48a.34.34 0 01-.21-.05l-.6-.36-2.3-1.36c-1.05-.63-2.31-.6-3.41.06a3.5 3.5 0 01-1.28 4.67c1.1.66 2.36.69 3.41.06l2.3-1.36.6-.36a.37.37 0 01.17-.45l.34-1.28c.1-.38.37-.72.73-.91l2.5-1.44a3.36 3.36 0 001.36-.24zm5.12-8.19a3.5 3.5 0 00-4.67-1.28c-1.05.63-1.49 1.99-.93 3.1l1.44 2.5c.19.36.53.63.91.73l1.28.34a.37.37 0 00.45-.17l.36-.6 1.36-2.3c.63-1.05.6-2.31-.06-3.41zm-5.07-4.09c-.1-.38-.37-.72-.73-.91l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1zm-3.16 6.13l-2.3-1.36a3.36 3.36 0 00-3.41.06 3.5 3.5 0 00-1.28 4.67c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45zm7.7-3.95l-1.36 2.3a3.36 3.36 0 00-.06 3.41c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45l-.6-.36-2.3-1.36a3.36 3.36 0 00-3.41.06zm-4.89-3.62a.34.34 0 01.21.05l.6.36 2.3 1.36c1.05.63 2.31.6 3.41-.06a3.5 3.5 0 011.28-4.67c-1.1-.66-2.36-.69-3.41-.06l-2.3 1.36-.6.36a.37.37 0 01-.17.45l-.34 1.28a.37.37 0 01-.45.17zm-5.12 8.19a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1l-1.44-2.5c-.19-.36-.53-.63-.91-.73l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41z" fill="#0060df"/></g></svg>
-              Купить на Ozon
-            </a>
-            <a href="#" class="market-btn market-wb" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M13.4 9.9c.4-.5 1.1-.5 1.4 0l6.1 9.4c.4.6-.1 1.4-.7 1.4H8c-.7 0-1.1-.8-.7-1.4l6.1-9.4z" fill="#a90dff"/></g></svg>
-              Купить на Wildberries
-            </a>
-            <a href="#" class="market-btn market-yandex" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M23 10.5l-3.7 8.2-3.7-8.2h-3.1l5.3 11.3h3.1l5.3-11.3z" fill="#23233a"/></g></svg>
-              Купить на Яндекс.Маркет
-            </a>
-          </div>
-        </div>
-        <div class="tea-card">
-          <img src="apple.jpg" alt="Яблочный травяной сбор">
-          <h3>Яблочный травяной сбор</h3>
-          <div class="composition">
-            сушёное яблоко, мята, лемонграсс, мелисса, лист клубники, календула
-          </div>
-          <div class="desc">
-            Фруктово-травяная свежесть и аромат летнего сада — яблоко, мята, лемонграсс и нотки клубники создают бодрящий, яркий вкус для любого настроения. Идеален для дневного чаепития.
-          </div>
-          <div class="market-buttons">
-            <a href="#" class="market-btn market-ozon" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M10.17 19.91l-.02.01-.01-.02zm0 0a3.36 3.36 0 01-2.8-1.82 3.5 3.5 0 011.28-4.67c1.1-.66 2.36-.69 3.41-.06l2.3 1.36.6.36a.37.37 0 01.17.45l-.34 1.28c-.1.38-.37.72-.73.91l-2.5 1.44a3.36 3.36 0 01-1.36.24zm7.56 2.48a.34.34 0 01-.21-.05l-.6-.36-2.3-1.36c-1.05-.63-2.31-.6-3.41.06a3.5 3.5 0 01-1.28 4.67c1.1.66 2.36.69 3.41.06l2.3-1.36.6-.36a.37.37 0 01.17-.45l.34-1.28c.1-.38.37-.72.73-.91l2.5-1.44a3.36 3.36 0 001.36-.24zm5.12-8.19a3.5 3.5 0 00-4.67-1.28c-1.05.63-1.49 1.99-.93 3.1l1.44 2.5c.19.36.53.63.91.73l1.28.34a.37.37 0 00.45-.17l.36-.6 1.36-2.3c.63-1.05.6-2.31-.06-3.41zm-5.07-4.09c-.1-.38-.37-.72-.73-.91l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1zm-3.16 6.13l-2.3-1.36a3.36 3.36 0 00-3.41.06 3.5 3.5 0 00-1.28 4.67c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45zm7.7-3.95l-1.36 2.3a3.36 3.36 0 00-.06 3.41c.63 1.05 1.99 1.49 3.1.93l2.5-1.44c.36-.19.63-.53.73-.91l.34-1.28a.37.37 0 00-.17-.45l-.6-.36-2.3-1.36a3.36 3.36 0 00-3.41.06zm-4.89-3.62a.34.34 0 01.21.05l.6.36 2.3 1.36c1.05.63 2.31.6 3.41-.06a3.5 3.5 0 011.28-4.67c-1.1-.66-2.36-.69-3.41-.06l-2.3 1.36-.6.36a.37.37 0 01-.17.45l-.34 1.28a.37.37 0 01-.45.17zm-5.12 8.19a3.5 3.5 0 004.67 1.28c1.05-.63 1.49-1.99.93-3.1l-1.44-2.5c-.19-.36-.53-.63-.91-.73l-1.28-.34a.37.37 0 00-.45.17l-.36.6-1.36 2.3c-.63 1.05-.6 2.31.06 3.41z" fill="#0060df"/></g></svg>
-              Купить на Ozon
-            </a>
-            <a href="#" class="market-btn market-wb" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M13.4 9.9c.4-.5 1.1-.5 1.4 0l6.1 9.4c.4.6-.1 1.4-.7 1.4H8c-.7 0-1.1-.8-.7-1.4l6.1-9.4z" fill="#a90dff"/></g></svg>
-              Купить на Wildberries
-            </a>
-            <a href="#" class="market-btn market-yandex" target="_blank">
-              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><g><path d="M23 10.5l-3.7 8.2-3.7-8.2h-3.1l5.3 11.3h3.1l5.3-11.3z" fill="#23233a"/></g></svg>
-              Купить на Яндекс.Маркет
-            </a>
-          </div>
-        </div>
-        <!-- Добавляй новые карточки сюда -->
-      </div>
-    </section>
-    <!-- ...дальше твой основной сайт... -->
-    <section class="brew-guide" id="brew">
-      <h2>Как заваривать наши чаи</h2>
-      <div class="brew-steps">
-        <div class="brew-step">
-          <div class="brew-step-num">1</div>
-          <div class="brew-step-text">Возьмите 5 г чая на 500 мл воды (примерно 2 чайные ложки на чайник).</div>
-        </div>
-        <div class="brew-step">
-          <div class="brew-step-num">2</div>
-          <div class="brew-step-text">Залейте свежевскипячённой водой 90–95°C.</div>
-        </div>
-        <div class="brew-step">
-          <div class="brew-step-num">3</div>
-          <div class="brew-step-text">Дайте настояться 5–7 минут для травяных, 3–5 минут для чёрного чая.</div>
-        </div>
-        <div class="brew-step">
-          <div class="brew-step-num">4</div>
-          <div class="brew-step-text">Перемешайте и разлейте по чашкам. Наслаждайтесь!</div>
-        </div>
-      </div>
-    </section>
-    <section class="features">
-      <div class="feature-card">
-        <div class="feature-icon">🌱</div>
-        100% натуральные ингредиенты
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌍</div>
-        Авторские купажи ручной работы
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🏆</div>
-        Прямые поставки с производства в Санкт-Петербурге
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🚚</div>
-        Быстрая доставка по всей России
-      </div>
-    </section>
-    <section class="faq" id="faq">
-      <h2>Частые вопросы</h2>
-      <div class="faq-item">
-        <div class="faq-q">Как заказать чай?<span class="faq-toggle">+</span></div>
-        <div class="faq-a">Выберите понравившийся чай и оформите заказ через маркетплейсы или напишите нам для оптовых/корпоративных заказов.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Какие условия доставки?<span class="faq-toggle">+</span></div>
-        <div class="faq-a">Мы отправляем заказы по всей России — через Ozon, Wildberries, Яндекс.Маркет, а также по запросу напрямую.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Есть ли у вас скидки или специальные предложения?<span class="faq-toggle">+</span></div>
-        <div class="faq-a">Да, для оптовых и корпоративных клиентов — индивидуальные условия. Пишите нам для сотрудничества!</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Сотрудничество<span class="faq-toggle">+</span></div>
-        <div class="faq-a">Рады новым партнёрам! Оставьте заявку через форму обратной связи или напишите нам на почту — обсудим индивидуальные условия для магазинов, кафе и отелей.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Как долго хранится чай?<span class="faq-toggle">+</span></div>
-        <div class="faq-a">Срок годности — 12 месяцев. Хранить в сухом прохладном месте, беречь от солнца и влаги.</div>
-      </div>
-    </section>
+  </div>
+</section>
+<main>
+  <section class="section">
+    <h2 class="reveal">Почему нас любят</h2>
+    <p class="lead reveal">Только вкусное. Только настоящее. Купажи созданы для города с характером — и для людей, которые ценят детали.</p>
+    <div class="features">
+      <div class="feature reveal"><h3>Натуральные составы</h3><p>Чай, травы и ягоды без ароматизаторов. Чистый вкус и честный состав.</p></div>
+      <div class="feature reveal"><h3>Питерский характер</h3><p>Купажи с настроением набережных, дворов и туманных утр.</p></div>
+      <div class="feature reveal"><h3>Подарочная упаковка</h3><p>Стильные тубусы — идеальны для подарка и красивого чаепития.</p></div>
+    </div>
   </section>
-  <section class="feedback-section" id="contacts">
-    <h2>Обратная связь</h2>
-    <form class="feedback-form" id="feedbackForm" autocomplete="off">
-      <input type="text" name="name" placeholder="Ваше имя" required>
-      <input type="tel" name="phone" placeholder="Телефон" pattern="[\d\+\-\(\) ]{7,}" required>
-      <textarea name="message" placeholder="Ваш вопрос или сообщение" required></textarea>
-      <button class="btn" type="submit">Отправить</button>
-      <div class="feedback-success" id="feedbackSuccess">Спасибо, ваше сообщение отправлено!</div>
-    </form>
+  <section class="section" id="products">
+    <h2 class="reveal">Наши премиальные купажи</h2>
+    <div class="products">
+      <article class="product reveal">
+        <img class="product__img" src="sever.jpg" alt="Северный вечер — чай в тубусе" loading="lazy">
+        <div class="product__body">
+          <h3 class="product__title">Северный вечер</h3>
+          <p class="product__desc">Уютный ассам с цветочными акцентами. Тёплый, обволакивающий вкус — для спокойных вечеров.</p>
+          <div class="meta">
+            <div class="meta__box"><strong>Состав</strong><ul><li>чай Ассам</li><li>липа</li><li>донник</li><li>лист малины и смородины</li><li>лаванда</li><li>бузина</li></ul></div>
+            <div class="meta__box"><strong>Вкус</strong><ul><li>мягкий, цветочный</li><li>лёгкая ягодная глубина</li><li>тёплое послевкусие</li></ul></div>
+            <div class="meta__box"><strong>Заваривание</strong><ul><li>90–95°C</li><li>5–7 минут</li><li>1 ч.л. / 250 мл</li></ul></div>
+          </div>
+          <div class="buy">
+            <a class="btn btn--ozon" id="ozon_north" href="#" target="_blank" rel="noopener">Ozon</a>
+            <a class="btn btn--wb" id="wb_north" href="#" target="_blank" rel="noopener">Wildberries</a>
+          </div>
+        </div>
+      </article>
+      <article class="product reveal">
+        <img class="product__img" src="spec7.jpg" alt="Петербургский спецкупаж №7 — чай в тубусе" loading="lazy">
+        <div class="product__body">
+          <h3 class="product__title">Петербургский спецкупаж №7</h3>
+          <p class="product__desc">Насыщенный чёрный чай с ягодами, шиповником и лёгким бергамотом.</p>
+          <div class="meta">
+            <div class="meta__box"><strong>Состав</strong><ul><li>чёрный чай</li><li>ассорти ягод</li><li>шиповник</li><li>бергамот</li></ul></div>
+            <div class="meta__box"><strong>Вкус</strong><ul><li>насыщенный, бодрящий</li><li>лёгкая кислинка ягод</li><li>цитрусовый аромат</li></ul></div>
+            <div class="meta__box"><strong>Заваривание</strong><ul><li>95°C</li><li>4–5 минут</li><li>1 ч.л. / 200–250 мл</li></ul></div>
+          </div>
+          <div class="buy">
+            <a class="btn btn--ozon" id="ozon_spec" href="#" target="_blank" rel="noopener">Ozon</a>
+            <a class="btn btn--wb" id="wb_spec" href="#" target="_blank" rel="noopener">Wildberries</a>
+          </div>
+        </div>
+      </article>
+      <article class="product reveal">
+        <img class="product__img" src="apple.jpg" alt="Яблочный травяной сбор — чай в тубусе" loading="lazy">
+        <div class="product__body">
+          <h3 class="product__title">Яблочный травяной сбор</h3>
+          <p class="product__desc">Лёгкий и освежающий фруктово-травяной купаж. Хорош и как холодный чай.</p>
+          <div class="meta">
+            <div class="meta__box"><strong>Состав</strong><ul><li>сушёное яблоко</li><li>чабрец</li><li>календула</li><li>каркаде</li></ul></div>
+            <div class="meta__box"><strong>Вкус</strong><ul><li>фруктовый, лёгкий</li><li>травяная глубина</li><li>освежающее послевкусие</li></ul></div>
+            <div class="meta__box"><strong>Заваривание</strong><ul><li>90°C</li><li>8–10 минут</li><li>1–2 ч.л. / 300 мл</li></ul></div>
+          </div>
+          <div class="buy">
+            <a class="btn btn--ozon" id="ozon_apple" href="#" target="_blank" rel="noopener">Ozon</a>
+            <a class="btn btn--wb" id="wb_apple" href="#" target="_blank" rel="noopener">Wildberries</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="section" id="gallery">
+    <h2 class="reveal">Галерея упаковки и атмосферы</h2>
+    <p class="lead reveal">Питер — в деталях.</p>
+    <div class="gallery-grid">
+      <img class="reveal gimg" src="https://images.unsplash.com/photo-1538688423619-a81d3f23454b?q=80&w=1200&auto=format&fit=crop" alt="Питерский мост" />
+      <img class="reveal gimg" src="https://images.unsplash.com/photo-1486869803479-878a62db0f2b?q=80&w=1200&auto=format&fit=crop" alt="Чайная атмосфера" />
+      <img class="reveal gimg" src="https://images.unsplash.com/photo-1494415859740-21e878dd929d?q=80&w=1200&auto=format&fit=crop" alt="Чай и книги" />
+      <img class="reveal gimg" src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=1200&auto=format&fit=crop" alt="Кружка чая" />
+    </div>
+  </section>
+  <section class="section" id="video">
+    <h2 class="reveal">Видео-обзор</h2>
+    <div class="video-wrap reveal"><iframe src="https://www.youtube.com/embed/RW3e_cIYgL8" title="Tea" frameborder="0" allowfullscreen loading="lazy"></iframe></div>
+  </section>
+  <section class="section" id="partners">
+    <h2 class="reveal">Сотрудничество</h2>
+    <p class="lead reveal">Приглашаем магазины, кофейни, рестораны, отели и корпоративных клиентов. Гибкие условия и быстрая логистика.</p>
+    <div class="features">
+      <div class="feature reveal"><h3>От 10 шт.</h3><p>−5% от розницы.</p></div>
+      <div class="feature reveal"><h3>От 50 шт.</h3><p>−12% и доставка до ТК.</p></div>
+      <div class="feature reveal"><h3>От 200 шт.</h3><p>Индивидуальные условия, брендирование.</p></div>
+    </div>
+    <div class="card reveal" style="margin-top:18px">
+      <h3 style="margin:0 0 10px">Калькулятор партнёрской цены</h3>
+      <div class="form" id="wholesaleCalc" style="grid-template-columns:1fr 1fr;gap:12px">
+        <label class="input" style="display:flex;align-items:center;gap:8px"><span style="opacity:.8">Розничная цена, ₽</span><input id="retailPrice" type="number" min="1" value="650" style="flex:1;background:transparent;border:0;color:#fff;outline:none"/></label>
+        <label class="input" style="display:flex;align-items:center;gap:8px"><span style="opacity:.8">Количество, шт</span><input id="qty" type="number" min="1" value="10" style="flex:1;background:transparent;border:0;color:#fff;outline:none"/></label>
+        <div class="meta__box" style="grid-column:1/-1"><strong>Скидка по объёму</strong><ul style="margin:.3rem 0 0"><li>10–49 шт: 5%</li><li>50–199 шт: 12%</li><li>200+ шт: индивидуально</li></ul></div>
+        <div class="meta__box"><strong>Цена за шт., ₽</strong><div id="unitPrice" style="font-size:20px;margin-top:6px">—</div></div>
+        <div class="meta__box"><strong>Итого, ₽</strong><div id="totalPrice" style="font-size:20px;margin-top:6px">—</div></div>
+        <button class="submit" type="button" onclick="calcWholesale()" style="grid-column:1/-1">Рассчитать</button>
+      </div>
+      <p class="note" style="margin-top:8px">Цены ориентировочные. Для заказа от 200 шт. запроси индивидуальные условия.</p>
+      <div style="text-align:center;margin-top:12px">
+        <a class="cta" href="#contact">Стать партнёром</a>
+        <a class="cta cta--ghost" href="https://t.me/Ilya_Manik" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="cta cta--ghost" href="partners.html">Отдельная страница</a>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="contact">
+    <h2 class="reveal">Связаться с нами</h2>
+    <div class="contact-card">
+      <div class="card reveal">
+        <form class="form" onsubmit="sendToTelegram(event)">
+          <input class="input" id="name" type="text" placeholder="Ваше имя" required />
+          <input class="input" id="phone" type="tel" placeholder="Телефон" required />
+          <textarea class="textarea" id="message" placeholder="Сообщение" required></textarea>
+          <button class="submit" type="submit">Отправить</button>
+          <div class="note">Отправка в Telegram. На статическом хостинге токен виден в исходнике.</div>
+        </form>
+      </div>
+      <div class="card reveal">
+        <h3 style="margin:6px 0 10px">Контакты и ссылки</h3>
+        <div class="buy" style="margin-top:8px">
+          <a class="btn btn--ozon" id="ozon_main" href="#" target="_blank" rel="noopener">Наш Ozon</a>
+          <a class="btn btn--wb" id="wb_main" href="#" target="_blank" rel="noopener">Наш WB</a>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
-<footer>
-  <div class="container footer-content">
-    <div class="footer-logo">Петербургский чайный синдикат</div>
-    <div class="footer-links">
-      <a href="#">Политика конфиденциальности</a>
-      <a href="#">О компании</a>
-      <a href="#faq">FAQ</a>
-    </div>
-    <div class="footer-socials">
-      <a href="#" title="VK" aria-label="VK">
-        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#191919"/><path d="M22.9 12.2c.1-.3 0-.6-.4-.6h-2.1c-.4 0-.6.2-.7.5 0 0-.8 2-2 3.3-.4.4-.6.5-.7.5-.1 0-.2-.1-.2-.5V12.2c0-.4-.1-.5-.5-.5h-3.2c-.3 0-.4.1-.4.5v8.3c0 .4.1.5.5.5h1.1c.4 0 .5-.2.5-.4 0-.4.2-1.1.2-1.1.1-.3.2-.4.5-.4h.7c.5 0 .7.2.9.4 0 0 1.2 1.5 1.4 1.8.3.4.5.5.9.5h1.1c.4 0 .6-.2.5-.6-.1-.3-.5-.8-1.1-1.6-.3-.4-.7-.9-.8-1.2-.2-.3 0-.5.2-.8.8-.9 1.6-2.2 1.7-2.4z" fill="#fff"/></svg>
-      </a>
-      <a href="#" title="Telegram" aria-label="Telegram">
-        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#229ED9"/><path d="M23.1 10.2l-2.6 12.2c-.2.8-.7 1-1.4.6l-3.7-2.7-1.8.9c-.2.1-.3 0-.4-.2l-.3-1.1s0-.1.1-.2l6.6-5.9c.3-.3-.1-.5-.4-.3l-8.2 5.2-1.1-.3c-.8-.2-.8-.8.2-1.2l13.5-5.2c.6-.2 1.2.2 1 1z" fill="#fff"/></svg>
-      </a>
-      <a href="#" title="Instagram" aria-label="Instagram">
-        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#E1306C"/><g><path d="M16 11.2c1.4 0 1.6 0 2.2.1.5.1.8.2 1 .4.2.2.3.4.4 1 .1.6.1.8.1 2.2s0 1.6-.1 2.2c-.1.5-.2.8-.4 1-.2.2-.4.3-1 .4-.6.1-.8.1-2.2.1s-1.6 0-2.2-.1c-.5-.1-.8-.2-1-.4-.2-.2-.3-.4-.4-1-.1-.6-.1-.8-.1-2.2s0-1.6.1-2.2c.1-.5.2-.8.4-1 .2-.2.4-.3 1-.4.6-.1.8-.1 2.2-.1zm0-1.2c-1.4 0-1.6 0-2.3.1-.7.1-1.2.3-1.6.7-.4.4-.6.9-.7 1.6-.1.7-.1.9-.1 2.3s0 1.6.1 2.3c.1.7.3 1.2.7 1.6.4.4.9.6 1.6.7.7.1.9.1 2.3.1s1.6 0 2.3-.1c.7-.1 1.2-.3 1.6-.7.4-.4.6-.9.7-1.6.1-.7.1-.9.1-2.3s0-1.6-.1-2.3c-.1-.7-.3-1.2-.7-1.6-.4-.4-.9-.6-1.6-.7-.7-.1-.9-.1-2.3-.1zm0 2.4a2.4 2.4 0 100 4.8 2.4 2.4 0 000-4.8zm0 4a1.6 1.6 0 110-3.2 1.6 1.6 0 010 3.2zm3.2-4.4a.56.56 0 100 1.12.56.56 0 000-1.12z" fill="#fff"/></g></svg>
-      </a>
-    </div>
-    <div>Телефон: <a href="tel:+70000000000" style="color:#7F3FFF;">+7 (000) 000-00-00</a> | Email: <a href="mailto:info@tea-syndicate.ru" style="color:#7F3FFF;">info@tea-syndicate.ru</a></div>
-    <div style="font-size:0.96rem; color:#bdbdcf; margin-top:12px;">&copy; 2025 Петербургский чайный синдикат. Все права защищены.</div>
-  </div>
-</footer>
+<footer class="footer">© 2025 Петербургский чайный синдикат — вкус, который запоминается.</footer>
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="close" aria-label="Закрыть" onclick="closeLightbox()">✕</button>
+  <button class="prev" aria-label="Предыдущее" onclick="navLightbox(-1)">⟨</button>
+  <img id="lightboxImg" alt="" />
+  <button class="next" aria-label="Следующее" onclick="navLightbox(1)">⟩</button>
+</div>
 <script>
-  // Мобильное меню
-  const burger = document.getElementById('burgerBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const closeMenuBtn = document.getElementById('closeMenuBtn');
-  burger.onclick = () => mobileMenu.classList.add('show');
-  closeMenuBtn.onclick = () => mobileMenu.classList.remove('show');
-  function closeMobileMenu() { mobileMenu.classList.remove('show'); }
-
-  // Калькулятор чая
-  function updateCalc() {
-    const persons = parseInt(document.getElementById('persons').value) || 1;
-    const cups = parseInt(document.getElementById('cups').value) || 1;
-    const grams = persons * cups * 2;
-    const liters = (persons * cups * 0.2).toFixed(1);
-    document.getElementById('calcResult').innerText =
-            `${grams} г чая • ${liters} л напитка`;
-  }
-  document.getElementById('persons').addEventListener('input', updateCalc);
-  document.getElementById('cups').addEventListener('input', updateCalc);
-  updateCalc();
-
-  // FAQ-аккордеон
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.addEventListener('click', function() {
-      this.classList.toggle('open');
-    });
-  });
-
-  // Карусель (чистый JS, свайп и стрелки)
-  const carousel = document.getElementById('teaCarousel');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  prevBtn.onclick = () => carousel.scrollBy({left: -380, behavior: 'smooth'});
-  nextBtn.onclick = () => carousel.scrollBy({left:  380, behavior: 'smooth'});
-  let startX;
-  carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
-  carousel.addEventListener('touchend', e => {
-    let dx = e.changedTouches[0].clientX - startX;
-    if(Math.abs(dx) > 60) {
-      carousel.scrollBy({left: dx > 0 ? -340 : 340, behavior: 'smooth'});
-    }
-  });
-
-  // Форма обратной связи (заглушка)
-  document.getElementById('feedbackForm').onsubmit = function(e) {
-    e.preventDefault();
-    document.getElementById('feedbackSuccess').style.display = 'block';
-    setTimeout(() => document.getElementById('feedbackSuccess').style.display = 'none', 4200);
-    this.reset();
-  }
+  const BOT_TOKEN  = '8376186963:AAH58UvfHhEqiGNsuVa-BZWmZiMLpns5alU';
+  const CHAT_ID    = '642040616';
+  const OZON_MAIN = 'https://ozon.ru/seller/peterburgskiy-chaynyy-sindikat-3209026';
+  const WB_MAIN   = 'https://www.wildberries.ru/brands/312201476-peterburgskiy-chayniy-sindikat';
+  const OZON_NORTH = 'https://ozon.ru/product/chay-severnyy-vecher-naturalnyy-travyanoy-sbor-lipa-donnik-lavanda-buzina-assam-100-g-rassypnoy-2561096592/';
+  const WB_NORTH   = 'https://www.wildberries.ru/catalog/482955415/detail.aspx';
+  const OZON_SPEC  = 'https://ozon.ru/product/chay-peterburgskiy-spetskupazh-7-assam-karkade-chabrets-lepestki-rozy-koritsa-list-ezheviki-100-2561054458';
+  const WB_SPEC    = 'https://www.wildberries.ru/catalog/482972980/detail.aspx';
+  const OZON_APPLE = 'https://ozon.ru/product/travyanoy-chay-yablochnyy-sbor-yabloko-myata-melissa-lemongrass-kalendula-list-klubniki-100-2560627765';
+  const WB_APPLE   = 'https://www.wildberries.ru/catalog/481452268/detail.aspx';
+  const burger = document.getElementById('burger'); const nav = document.getElementById('nav'); burger?.addEventListener('click', ()=> nav.classList.toggle('open'));
+  const heroBg = document.getElementById('heroBg'); window.addEventListener('scroll', ()=>{ const y = window.scrollY * 0.25; heroBg.style.backgroundPosition = `center calc(50% + ${y}px)`; }, {passive:true});
+  const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); } }); }, {threshold:0.12}); document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+  const imgs = Array.from(document.querySelectorAll('.gimg')); const lb = document.getElementById('lightbox'); const lbImg = document.getElementById('lightboxImg'); let lbIndex = 0;
+  imgs.forEach((img,i)=> img.addEventListener('click', ()=> { lbIndex=i; openLightbox(img.src); }));
+  function openLightbox(src){ lbImg.src = src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
+  function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); }
+  function navLightbox(dir){ lbIndex = (lbIndex + dir + imgs.length) % imgs.length; lbImg.src = imgs[lbIndex].src; }
+  document.addEventListener('keydown', (e)=>{ if(!lb.classList.contains('open')) return; if(e.key==='Escape') closeLightbox(); if(e.key==='ArrowRight') navLightbox(1); if(e.key==='ArrowLeft') navLightbox(-1); });
+  function setLink(id, url){ const a = document.getElementById(id); if(a) a.href = url; }
+  setLink('ozon_main',OZON_MAIN); setLink('wb_main',WB_MAIN); setLink('ozon_north',OZON_NORTH); setLink('wb_north',WB_NORTH); setLink('ozon_spec',OZON_SPEC); setLink('wb_spec',WB_SPEC); setLink('ozon_apple',OZON_APPLE); setLink('wb_apple',WB_APPLE);
+  function sendToTelegram(e){ e.preventDefault(); const name=document.getElementById("name").value.trim(); const phone=document.getElementById("phone").value.trim(); const message=document.getElementById("message").value.trim(); if(!name||!phone||!message){ alert("Заполните все поля."); return; } const text=`📝 Заявка с сайта\nИмя: ${name}\nТелефон: ${phone}\nСообщение: ${message}`; fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({chat_id:CHAT_ID, text})}).then(r=> r.ok ? alert("✅ Отправлено!") : Promise.reject()).catch(()=> alert("⚠️ Ошибка отправки.")); }
+  function calcWholesale(){ const retail=Math.max(1, Number(document.getElementById('retailPrice').value||0)); const qty=Math.max(1, Number(document.getElementById('qty').value||0)); let discount=0; if(qty>=200){discount=0.18;} else if(qty>=50){discount=0.12;} else if(qty>=10){discount=0.05;} const unit=Math.round(retail*(1-discount)); const total=unit*qty; document.getElementById('unitPrice').textContent=unit.toLocaleString('ru-RU'); document.getElementById('totalPrice').textContent=total.toLocaleString('ru-RU'); }
+  window.addEventListener('DOMContentLoaded', ()=> { try{ calcWholesale(); }catch(e){} });
 </script>
 </body>
 </html>
