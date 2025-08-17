@@ -83,6 +83,61 @@
       .burger{display:block}
       .nav.open{position:fixed;inset:56px 12px auto;background:#141826;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;display:grid;gap:8px;z-index:60}
     }
+    /* На мобильных убираем наложение текста на картинку */
+    @media (max-width: 768px) {
+      .product__desc {
+        position: static !important;
+        background: #111; /* тёмный фон */
+        color: #fff;
+        padding: 12px;
+        border-radius: 12px;
+        margin-top: 10px;
+        opacity: 1 !important;
+      }
+
+      .product__title {
+        color: #fff;
+        margin-top: 10px;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    .btn img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Цвета кнопок */
+    .btn--ozon { background:#005BFF; }
+    .btn--wb { background:#8E2DE2; }
+    .btn--ym { background:#FFCC00; color:#111; }
+    .btn--avito { background:#01BFA5; }
+    .btn--tg { background:#229ED9; }
+    .btn--wa { background:#25D366; }
+    .btn--vk { background:#4C75A3; }
+    .btn--max { background:#ff5722; }
+    .btn--insta {
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    }
+
   </style>
 </head>
 <body>
@@ -190,32 +245,67 @@
     <h2 class="reveal">Видео-обзор</h2>
     <div class="video-wrap reveal"><iframe src="https://www.youtube.com/embed/RW3e_cIYgL8" title="Tea" frameborder="0" allowfullscreen loading="lazy"></iframe></div>
   </section>
-  <section class="section" id="partners">
-    <h2 class="reveal">Сотрудничество</h2>
-    <p class="lead reveal">Приглашаем магазины, кофейни, рестораны, отели и корпоративных клиентов. Гибкие условия и быстрая логистика.</p>
-    <div class="features">
-      <div class="feature reveal"><h3>От 10 шт.</h3><p>−5% от розницы.</p></div>
-      <div class="feature reveal"><h3>От 50 шт.</h3><p>−12% и доставка до ТК.</p></div>
-      <div class="feature reveal"><h3>От 200 шт.</h3><p>Индивидуальные условия, брендирование.</p></div>
-    </div>
-    <div class="card reveal" style="margin-top:18px">
-      <h3 style="margin:0 0 10px">Калькулятор партнёрской цены</h3>
-      <div class="form" id="wholesaleCalc" style="grid-template-columns:1fr 1fr;gap:12px">
-        <label class="input" style="display:flex;align-items:center;gap:8px"><span style="opacity:.8">Розничная цена, ₽</span><input id="retailPrice" type="number" min="1" value="650" style="flex:1;background:transparent;border:0;color:#fff;outline:none"/></label>
-        <label class="input" style="display:flex;align-items:center;gap:8px"><span style="opacity:.8">Количество, шт</span><input id="qty" type="number" min="1" value="10" style="flex:1;background:transparent;border:0;color:#fff;outline:none"/></label>
-        <div class="meta__box" style="grid-column:1/-1"><strong>Скидка по объёму</strong><ul style="margin:.3rem 0 0"><li>10–49 шт: 5%</li><li>50–199 шт: 12%</li><li>200+ шт: индивидуально</li></ul></div>
-        <div class="meta__box"><strong>Цена за шт., ₽</strong><div id="unitPrice" style="font-size:20px;margin-top:6px">—</div></div>
-        <div class="meta__box"><strong>Итого, ₽</strong><div id="totalPrice" style="font-size:20px;margin-top:6px">—</div></div>
-        <button class="submit" type="button" onclick="calcWholesale()" style="grid-column:1/-1">Рассчитать</button>
+  <!-- === Сотрудничество (SEO) === -->
+  <section class="section" id="cooperation">
+    <h2>Сотрудничество: оптовые поставки и брендированный чай</h2>
+    <p class="lead">
+      Ищете <strong>оптовый чай</strong> для магазина, кофейни или в корпоративные наборы?
+      «Петербургский чайный синдикат» поставляет авторские купажи по всей России и ЕАЭС:
+      <em>оптовые цены</em>, <em>брендирование тубусов</em>, готовый контент для маркетплейсов и
+      быстрая логистика. Подходит для <strong>розницы и e-commerce</strong>, <strong>HoReCa</strong> и
+      <strong>корпоративных подарков</strong>.
+    </p>
+
+    <div class="features" style="margin-top:16px">
+      <div class="feature">
+        <h3>Оптовый чай для магазинов и e-commerce</h3>
+        <p>Готовая продукция в стильных тубусах, стабильные остатки, карточки товаров и фото —
+          быстро запускаем продажи на месте и на маркетплейсах.</p>
       </div>
-      <p class="note" style="margin-top:8px">Цены ориентировочные. Для заказа от 200 шт. запроси индивидуальные условия.</p>
-      <div style="text-align:center;margin-top:12px">
-        <a class="cta" href="#contact">Стать партнёром</a>
-        <a class="cta cta--ghost" href="https://t.me/Ilya_Manik" target="_blank" rel="noopener">Написать в Telegram</a>
-        <a class="cta cta--ghost" href="partners.html">Отдельная страница</a>
+      <div class="feature">
+        <h3>Чай для HoReCa</h3>
+        <p>Купажи под меню и сезон, консультации по подаче, возможна порционная фасовка.
+          Идеально для кофеен, ресторанов и отелей.</p>
+      </div>
+      <div class="feature">
+        <h3>Корпоративные подарки и брендирование</h3>
+        <p>Брендированный чай и подарочные наборы с вашим логотипом. Подготовим дизайн и
+          организуем доставку «под ключ».</p>
       </div>
     </div>
+
+    <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+      <a class="cta" href="partners.html">Условия и прайс</a>
+      <a class="cta cta--ghost" href="https://t.me/Ilya_Manik" target="_blank" rel="noopener">Задать вопрос в Telegram</a>
+    </div>
+
+    <!-- Микроразметка FAQ для SEO (кратко) -->
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Можно ли заказать брендированный чай?",
+            "acceptedAnswer":{"@type":"Answer","text":"Да, выпускаем лимитированные серии и корпоративные наборы с вашим брендом."}
+          },
+          {
+            "@type":"Question",
+            "name":"С какого объёма действуют оптовые цены?",
+            "acceptedAnswer":{"@type":"Answer","text":"Базовая скидка от 10 шт., расширенные условия от 50 и 200+. Подробности на странице сотрудничества."}
+          },
+          {
+            "@type":"Question",
+            "name":"Работаете с HoReCa?",
+            "acceptedAnswer":{"@type":"Answer","text":"Да, поставляем чай для кофеен, ресторанов и отелей, возможна порционная фасовка и сезонные купажи."}
+          }
+        ]
+      }
+    </script>
   </section>
+  <!-- === /Сотрудничество (SEO) === -->
+
   <section class="section" id="contact">
     <h2 class="reveal">Связаться с нами</h2>
     <div class="contact-card">
@@ -230,11 +320,41 @@
       </div>
       <div class="card reveal">
         <h3 style="margin:6px 0 10px">Контакты и ссылки</h3>
-        <div class="buy" style="margin-top:8px">
-          <a class="btn btn--ozon" id="ozon_main" href="#" target="_blank" rel="noopener">Наш Ozon</a>
-          <a class="btn btn--wb" id="wb_main" href="#" target="_blank" rel="noopener">Наш WB</a>
+        <div class="buy" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:10px">
+          <!-- Маркетплейсы -->
+          <a class="btn btn--ozon" href="https://ozon.ru/seller/peterburgskiy-chaynyy-sindikat-3209026" target="_blank" rel="noopener">
+            <img src="img/ozon.png" alt="Ozon" /> Ozon
+          </a>
+          <a class="btn btn--wb" href="https://www.wildberries.ru/brands/312201476-peterburgskiy-chayniy-sindikat" target="_blank" rel="noopener">
+            <img src="img/wb.png" alt="WB" /> WB
+          </a>
+          <a class="btn btn--ym" href="https://market.yandex.ru/search?text=петербургский%20чайный%20синдикат" target="_blank" rel="noopener">
+            <img src="img/ym.png" alt="Яндекс Маркет" /> Я.Маркет
+          </a>
+          <a class="btn btn--avito" href="https://www.avito.ru/" target="_blank" rel="noopener">
+            <img src="img/avito.png" alt="Авито" /> Авито
+          </a>
+
+          <!-- Соцсети -->
+          <a class="btn btn--tg" href="https://t.me/Ilya_Manik" target="_blank" rel="noopener">
+            <img src="img/telegram.png" alt="Telegram" /> Telegram
+          </a>
+          <a class="btn btn--wa" href="https://wa.me/79657776696" target="_blank" rel="noopener">
+            <img src="img/whatsapp.png" alt="WhatsApp" /> WhatsApp
+          </a>
+          <a class="btn btn--vk" href="https://vk.com/spbteasyndicate" target="_blank" rel="noopener">
+            <img src="img/vk.png" alt="VK" /> ВКонтакте
+          </a>
+          <a class="btn btn--max" href="https://maxapp.example.com/chat/spbteasyndicate" target="_blank" rel="noopener">
+            <img src="img/max.png" alt="MAX" /> MAX
+          </a>
+          <a class="btn btn--insta" href="https://instagram.com/spbteasyndicate" target="_blank" rel="noopener">
+            <img src="img/instagram.png" alt="Instagram" /> Instagram
+          </a>
         </div>
       </div>
+
+
     </div>
   </section>
 </main>
